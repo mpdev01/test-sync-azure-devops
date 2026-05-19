@@ -1,4 +1,4 @@
-```yaml id="pwkjlwm"
+yaml id="pwkjlwm"
 trigger:
   branches:
     include:
@@ -73,4 +73,4 @@ steps:
     echo "===================================="
 
   displayName: Sync GitHub To Azure Repo
-```
+
