@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
@@ -10,12 +5,18 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo ทดสอบ Auto Sync
-  displayName: 'Run a one-line script'
+
+- checkout: self
+  persistCredentials: true
+  fetchDepth: 0
 
 - script: |
-    echo # test-sync-azure-devops
-    echo test sync repo from github to azure devops
-    echo ทดสอบ Auto Sync
- 
-  displayName: 'Run a multi-line script'
+    git config --global user.email "thanesp@mitrphol.com"
+    git config --global user.name "mpdev01.test-sync-azure-devops"
+
+    git remote add azure https://Digital-Product-Development@dev.azure.com/Digital-Product-Development/DPD_FromGitHub/_git/test-sync-azure-devops
+
+    git push azure --all
+    git push azure --tags
+
+  displayName: Sync GitHub To Azure Repos
