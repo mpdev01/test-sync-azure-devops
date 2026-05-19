@@ -1,22 +1,76 @@
+```yaml id="pwkjlwm"
 trigger:
-- main
+  branches:
+    include:
+      - main
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
 
+# ============================================
+# Checkout Source From GitHub
+# ============================================
 - checkout: self
   persistCredentials: true
   fetchDepth: 0
 
+# ============================================
+# Git Config
+# ============================================
 - script: |
-    git config --global user.email "thanesp@mitrphol.com"
-    git config --global user.name "mpdev01.test-sync-azure-devops"
 
-    git remote add azure https://Digital-Product-Development@dev.azure.com/Digital-Product-Development/DPD_FromGitHub/_git/test-sync-azure-devops
+    echo "===================================="
+    echo "Git Config"
+    echo "===================================="
 
+    git config --global user.email "azure-devops@company.com"
+    git config --global user.name "Azure DevOps Pipeline"
+
+    echo ""
+    echo "Current Branch:"
+    git branch
+
+    echo ""
+    echo "Remote List:"
+    git remote -v
+
+  displayName: Git Config
+
+# ============================================
+# Sync GitHub To Azure Repos
+# ============================================
+- script: |
+
+    echo "===================================="
+    echo "Sync GitHub To Azure Repo"
+    echo "===================================="
+
+    echo ""
+    echo "Remove old remote (if exists)"
+    git remote remove azure || true
+
+    echo ""
+    echo "Add Azure Remote"
+    git remote add azure https://$(AZURE_USER):$(AZURE_PAT)@dev.azure.com/Digital-Product-Development/DPD_FromGitHub/_git/test-sync-azure-devops
+
+    echo ""
+    echo "Remote Verify"
+    git remote -v
+
+    echo ""
+    echo "Push All Branches"
     git push azure --all
+
+    echo ""
+    echo "Push Tags"
     git push azure --tags
 
-  displayName: Sync GitHub To Azure Repos
+    echo ""
+    echo "===================================="
+    echo "Sync Completed"
+    echo "===================================="
+
+  displayName: Sync GitHub To Azure Repo
+```
