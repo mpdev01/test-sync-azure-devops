@@ -1,45 +1,39 @@
 trigger:
   branches:
     include:
-      - main
+      - '*'
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
 
-# ============================================
-# Checkout Source From GitHub
-# ============================================
+# Checkout source from GitHub
 - checkout: self
   persistCredentials: true
   fetchDepth: 0
 
-# ============================================
 # Git Config
-# ============================================
 - script: |
 
     echo "===================================="
     echo "Git Config"
     echo "===================================="
 
-    git config --global user.email "azure-devops@company.com"
+    git config --global user.email "devops@company.com"
     git config --global user.name "Azure DevOps Pipeline"
 
     echo ""
-    echo "Current Branch:"
+    echo "Current Branch"
     git branch
 
     echo ""
-    echo "Remote List:"
+    echo "Remote List"
     git remote -v
 
-  displayName: Git Config
+  displayName: "Git Config"
 
-# ============================================
-# Sync GitHub To Azure Repos
-# ============================================
+# Sync GitHub To Azure Repo
 - script: |
 
     echo "===================================="
@@ -47,28 +41,29 @@ steps:
     echo "===================================="
 
     echo ""
-    echo "Remove old remote (if exists)"
+    echo "Remove old remote"
     git remote remove azure || true
 
     echo ""
     echo "Add Azure Remote"
-    git remote add azure https://$(AZURE_USER):$(AZURE_PAT)@dev.azure.com/Digital-Product-Development/DPD_FromGitHub/_git/test-sync-azure-devops
+    git remote add azure https://$(AZURE_PAT)@dev.azure.com/Digital-Product-Development/DPD_FromGitHub/_git/test-sync-azure-devops
 
     echo ""
-    echo "Remote Verify"
+    echo "Verify Remote"
     git remote -v
 
     echo ""
     echo "Push All Branches"
-    git push azure --all
+    git push azure --all --force
 
     echo ""
     echo "Push Tags"
-    git push azure --tags
+    git push azure --tags --force
 
     echo ""
     echo "===================================="
     echo "Sync Completed"
     echo "===================================="
 
-  displayName: Sync GitHub To Azure Repo
+  displayName: "Sync GitHub To Azure Repo"
+
