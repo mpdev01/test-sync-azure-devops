@@ -10,10 +10,12 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
+- script: echo ทดสอบ Auto Sync
   displayName: 'Run a one-line script'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
+    echo # test-sync-azure-devops
+    echo test sync repo from github to azure devops
+    echo ทดสอบ Auto Sync
+ 
   displayName: 'Run a multi-line script'
