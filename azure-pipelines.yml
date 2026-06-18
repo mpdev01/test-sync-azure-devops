@@ -46,7 +46,7 @@ steps:
 
     echo ""
     echo "Add Azure Remote"
-    git remote add azure https://$(AZURE_PAT)@dev.azure.com/Digital-Product-Development/DPD_FromGitHub/_git/test-sync-azure-devops
+    git remote add azure https://$(AZURE_PAT)@dev.azure.com/Digital-Product-Development/DPD_FromGitHub/_git/test_github_pipeline
 
     echo ""
     echo "Verify Remote"
